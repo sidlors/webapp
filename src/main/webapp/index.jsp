@@ -9,5 +9,9 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        
+        <form action="ServletSetVariables">
+        <input type="button" value="Subir Variables">
+        </form>
     </body>
 </html>
