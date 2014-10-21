@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head />
+	<h:body>
+		<h:form id="form">
+
+
+			<p:ring value="#{solicitudBean.listDocumento}" var="document">
+				<p:column>
+					<p:outputPanel style="width:200px; height:200px;">
+
+						<h:outputText value="#{document.nombreArchivo}" />
+
+						<p:commandLink oncomplete="docDialog1.show()" title="Mostrar">
+							<p:graphicImage name="#{document.imagen}" width="50px"
+								height="50px" />
+							<!-- 					<f:setPropertyActionListener value="#{document}"
+							target="#{solicitudBean.selectedDocumento}" />-->
+						</p:commandLink>
+					</p:outputPanel>
+				</p:column>
+			</p:ring>
+
+
+
+
+
+			<p:stack icon="../images/stack.png">
+
+				<c:forEach items="#{solicitudBean.listDocumento}" var="document">
+					<p:menuitem value="#{document.nombreArchivo}"
+						icon="#{document.imagen}" action="#{solicitudBean.abrirDialog()}">
+
+						<f:setPropertyActionListener value="#{document}" target="#{solicitudBean.selectedDocumento}" />
+
+					</p:menuitem>
+				</c:forEach>
+			</p:stack>
+
+
+			<p:dialog id="docDialog1" widgetVar="docDialog1" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				closable="false" fixedCenter="false" showEffect="fade" hideEffect="fade" modal="false" width="50%" height="300">
+
+				<ui:include src="documentView.xhtml" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(1)}" value="cerrar" process="@this" />
+
+			</p:dialog>
+			
+			
+
+			<p:dialog id="docDialog2" widgetVar="docDialog2" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				fixedCenter="false" showEffect="fade" hideEffect="fade" closable="false" modal="false" width="50%" height="300">
+				
+				<ui:include src="documentView.xhtml" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(2)}" value="cerrar" process="@this" />
+			</p:dialog>
+
+
+
+			<p:dialog id="docDialog3" widgetVar="docDialog3" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				fixedCenter="false" showEffect="fade" hideEffect="fade" closable="false" modal="false" width="50%" height="300">
+			
+				<ui:include src="documentView.xhtml" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(3)}" value="cerrar" process="@this" />
+			</p:dialog>
+
+
+
+
+			<style>
+.ui-stack {
+	bottom: 28px;
+	left: 150px;
+}
+</style>
+
+
+			<p:editor id="editor" widgetVar="editorWidget"
+				value="#{solicitudBean.text}" width="800"/>
+				<!-- controls="bold italic underline strikethrough" --> 
+
+			<p:carousel value="#{solicitudBean.listDocumento}"
+				headerText="Documentos" var="document">
+				<h:panelGrid columns="1" style="width:100%" cellpadding="10">
+					<f:facet name="header">
+						<p:commandLink oncomplete="docDialog1.show()" title="Mostrar">
+							<p:graphicImage name="#{document.imagen}" width="50px"
+								height="50px" />
+						</p:commandLink>
+					</f:facet>
+
+					<h:outputText value="#{document.nombreArchivo}" />
+
+
+				</h:panelGrid>
+
+				<f:facet name="footer"> Documentos </f:facet>
+			</p:carousel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<p style="text-align: right;">
+				<p:commandButton id="send" action="#{solicitudBean.nuevaDenuncia}"
+					value="REALIZAR EN LÍNEA" styleClass="btn btn-primary btn-lg" />
+			</p>
+
+
+		</h:form>
+
+
+	</h:body>
+</f:view>
