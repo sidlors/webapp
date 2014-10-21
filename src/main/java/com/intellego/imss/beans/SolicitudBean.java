@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import com.intellego.imss.modelo.Documento;
 import com.intellego.imss.modelo.Solicitud;
@@ -22,6 +23,8 @@ public class SolicitudBean {
 	private List<Solicitud> listSolicitud;
 	private List<Documento> listDocumento;
 	private Documento selectedDocumento;
+	private Solicitud selectedSolicitud;
+	
 
 	private String text;
 
@@ -45,14 +48,17 @@ public class SolicitudBean {
 		doc = new Documento();
 		doc.setNombreArchivo("documento.xdoc");
 		doc.setImagen("../images/word.png");
-		doc.setTipo(0);
+		doc.setUrl("C:\\INTELLEGO\\IMSS_Digital\\web.doc");
+		doc.setTipo(3);
 		listDocumento.add(doc);
 
 
 		doc = new Documento();
 		doc.setNombreArchivo("archivo_pdf2.pdf");
 		doc.setImagen("../images/pdf2.png");
-		doc.setTipo(0);
+		doc.setUrl("http://www.cenetec.salud.gob.mx/descargas/gpc/CatalogoMaestro/028_GPC__PrenatalRiesgo/IMSS_028_08_GRR.pdf");
+		//doc.setUrl("C:\\INTELLEGO\\IMSS_Digital\\imagenes\\archivo.pdf");
+		doc.setTipo(2);
 		listDocumento.add(doc);
 
 
@@ -87,6 +93,7 @@ public class SolicitudBean {
 		Solicitud sol;
 		for(int i = 0; i<4;i++){
 			sol = new Solicitud();
+			sol.setId(String.valueOf(i));
 			sol.setEstado("pendiente");
 			sol.setFechaSolicitud(new Date());
 			sol.setPeticionario("Angelo Hidalgo");
@@ -98,6 +105,10 @@ public class SolicitudBean {
 
 	}
 
+	public void onRowSelect(SelectEvent event) {
+		selectedSolicitud = (Solicitud) event.getObject();
+		System.out.println("Solicitud seleccionada "+selectedSolicitud.getId());
+	}
 
 
 	public void abrirDialog(){
@@ -151,7 +162,27 @@ public class SolicitudBean {
 			RequestContext.getCurrentInstance().execute("docDialog3.hide();");
 			//FacesUtils.addCallBack("ventana", 3);			
 			return;
+		}
+	}
+	
 
+	public void hideDialog(int ventana){
+
+		//FacesUtils.addCallBack("ventana", true);
+		System.out.println("HIDE DIALOG "+ventana);
+		if(ventana == 1){
+			ventana1 = false;
+			return;
+		}
+		if(ventana==2){
+			ventana2 = false;
+			RequestContext.getCurrentInstance().execute("docDialog2.hide()");
+			return;
+		}
+		if(ventana==3){
+			ventana3 = false;
+			RequestContext.getCurrentInstance().execute("docDialog3.hide();");
+			return;
 		}
 
 
@@ -221,6 +252,14 @@ public class SolicitudBean {
 
 	public void setVentana3(boolean ventana3) {
 		this.ventana3 = ventana3;
+	}
+
+	public Solicitud getSelectedSolicitud() {
+		return selectedSolicitud;
+	}
+
+	public void setSelectedSolicitud(Solicitud selectedSolicitud) {
+		this.selectedSolicitud = selectedSolicitud;
 	}
 
 

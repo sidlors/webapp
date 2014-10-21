@@ -10,6 +10,27 @@
 	<h:body>
 		<h:form id="form">
 
+			<p:dataTable value="#{solicitudBean.listSolicitud}" var="solicitud"
+				selection="#{solicitudBean.selectedSolicitud}"
+				rowKey="#{solicitud.id}" selectionMode="single">
+
+
+				<p:ajax event="rowSelect" listener="#{solicitudBean.onRowSelect}" />
+
+				<p:column headerText="Peticionario">
+					<h:outputText value="#{solicitud.peticionario}" />
+				</p:column>
+				<p:column headerText="Fecha Solicitud">
+					<h:outputText
+						value="#{solicitud.fechaSolicitud.date}/#{solicitud.fechaSolicitud.month+1}/#{solicitud.fechaSolicitud.year+1900}" />
+				</p:column>
+				<p:column headerText="Fecha de entrega">
+					<h:outputText value="#{solicitud.fechaEntrega}" />
+					<h:outputText
+						value="#{solicitud.fechaSolicitud.date}/#{solicitud.fechaSolicitud.month+1}/#{solicitud.fechaSolicitud.year+1900}" />
+				</p:column>
+			</p:dataTable>
+
 
 			<p:ring value="#{solicitudBean.listDocumento}" var="document">
 				<p:column>
@@ -37,37 +58,47 @@
 					<p:menuitem value="#{document.nombreArchivo}"
 						icon="#{document.imagen}" action="#{solicitudBean.abrirDialog()}">
 
-						<f:setPropertyActionListener value="#{document}" target="#{solicitudBean.selectedDocumento}" />
+						<f:setPropertyActionListener value="#{document}"
+							target="#{solicitudBean.selectedDocumento}" />
 
 					</p:menuitem>
 				</c:forEach>
 			</p:stack>
 
 
-			<p:dialog id="docDialog1" widgetVar="docDialog1" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
-				closable="false" fixedCenter="false" showEffect="fade" hideEffect="fade" modal="false" width="50%" height="300">
+			<p:dialog id="docDialog1" widgetVar="docDialog1"
+				header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				closable="false" fixedCenter="false" showEffect="fade"
+				hideEffect="fade" modal="false" width="70%" height="400">
 
 				<ui:include src="documentView.xhtml" />
-				<p:commandButton action="#{solicitudBean.cerrarDialog(1)}" value="cerrar" process="@this" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(1)}"
+					value="cerrar" process="@this" />
 
-			</p:dialog>
-			
-			
-
-			<p:dialog id="docDialog2" widgetVar="docDialog2" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
-				fixedCenter="false" showEffect="fade" hideEffect="fade" closable="false" modal="false" width="50%" height="300">
-				
-				<ui:include src="documentView.xhtml" />
-				<p:commandButton action="#{solicitudBean.cerrarDialog(2)}" value="cerrar" process="@this" />
 			</p:dialog>
 
 
 
-			<p:dialog id="docDialog3" widgetVar="docDialog3" header="#{solicitudBean.selectedDocumento.nombreArchivo}"
-				fixedCenter="false" showEffect="fade" hideEffect="fade" closable="false" modal="false" width="50%" height="300">
-			
+			<p:dialog id="docDialog2" widgetVar="docDialog2"
+				header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				fixedCenter="false" showEffect="fade" hideEffect="fade"
+				closable="false" modal="false" width="70%" height="400">
+
 				<ui:include src="documentView.xhtml" />
-				<p:commandButton action="#{solicitudBean.cerrarDialog(3)}" value="cerrar" process="@this" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(2)}"
+					value="cerrar" process="@this" />
+			</p:dialog>
+
+
+
+			<p:dialog id="docDialog3" widgetVar="docDialog3"
+				header="#{solicitudBean.selectedDocumento.nombreArchivo}"
+				fixedCenter="false" showEffect="fade" hideEffect="fade"
+				modal="false" width="70%" height="400">
+
+				<ui:include src="documentView.xhtml" />
+				<p:commandButton action="#{solicitudBean.cerrarDialog(3)}"
+					value="cerrar" process="@this" />
 			</p:dialog>
 
 
@@ -82,8 +113,8 @@
 
 
 			<p:editor id="editor" widgetVar="editorWidget"
-				value="#{solicitudBean.text}" width="800"/>
-				<!-- controls="bold italic underline strikethrough" --> 
+				value="#{solicitudBean.text}" width="800" />
+			<!-- controls="bold italic underline strikethrough" -->
 
 			<p:carousel value="#{solicitudBean.listDocumento}"
 				headerText="Documentos" var="document">
